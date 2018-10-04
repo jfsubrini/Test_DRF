@@ -1,14 +1,20 @@
-from django.contrib.auth.models import User, Group
+"""
+API serializers
+"""
+
+
+from ..models import Food, Category
 from rest_framework import serializers
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class FoodSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
-        fields = ('url', 'username', 'email', 'groups')
+        model = Food
+        fields = ['name', 'brand', 'category', 'nutrition_grade', \
+        'nutrition_score', 'url', 'image_food', 'image_nutrition']
 
 
-class GroupSerializer(serializers.HyperlinkedModelSerializer):
+class CategorySerializer(serializers.ModelSerializer):
     class Meta:
-        model = Group
-        fields = ('url', 'name')
+        model = Category
+        fields = ['name']

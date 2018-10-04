@@ -19,12 +19,13 @@ from django.urls import path, include
 from django.conf.urls import url
 from django.contrib import admin
 from rest_framework import routers
-from .. api import views
+from ..api import views
 
 
 router = routers.DefaultRouter()
-router.register(r'users', views.UserViewSet)
-router.register(r'groups', views.GroupViewSet)
+router.register(r'product/id', views.FoodIdViewSet)
+router.register(r'product', views.FoodViewSet)
+router.register(r'category', views.CategoryViewSet)
 
 
 urlpatterns = [
@@ -36,5 +37,5 @@ urlpatterns = [
 # Additionally, we include login URLs for the browsable API.
 urlpatterns += [
     url(r'^', include(router.urls)),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    url(r'^api/', include('rest_framework.urls', namespace='rest_framework'))
 ]

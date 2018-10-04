@@ -1,19 +1,33 @@
-from django.contrib.auth.models import User, Group
+"""
+API views
+"""
+
+
+from ..food.models import Food, Category
 from rest_framework import viewsets
-from tutorial.quickstart.serializers import UserSerializer, GroupSerializer
+from .serializers import FoodSerializer, CategorySerializer
 
 
-class UserViewSet(viewsets.ModelViewSet):
+
+class FoodIdViewSet(viewsets.ModelViewSet, product_id):
     """
     API endpoint that allows users to be viewed or edited.
     """
-    queryset = User.objects.all().order_by('-date_joined')
-    serializer_class = UserSerializer
+    queryset = Food.objects.get(id=product_id)
+    serializer_class = FoodSerializer
 
 
-class GroupViewSet(viewsets.ModelViewSet):
+class FoodViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = Food.objects.all()
+    serializer_class = FoodSerializer
+
+
+class CategoryViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows groups to be viewed or edited.
     """
-    queryset = Group.objects.all()
-    serializer_class = GroupSerializer
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
