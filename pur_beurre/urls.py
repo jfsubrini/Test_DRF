@@ -16,26 +16,22 @@ Including another URLconf
 
 # Django imports
 from django.urls import path, include
-from django.conf.urls import url
 from django.contrib import admin
 from rest_framework import routers
-from ..api import views
 
 
 router = routers.DefaultRouter()
-router.register(r'product/id', views.FoodIdViewSet)
-router.register(r'product', views.FoodViewSet)
-router.register(r'category', views.CategoryViewSet)
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('food.urls')),
+    path('api/', include('api.urls')),
 ]
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns += [
-    url(r'^', include(router.urls)),
-    url(r'^api/', include('rest_framework.urls', namespace='rest_framework'))
+    path('', include(router.urls)),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
