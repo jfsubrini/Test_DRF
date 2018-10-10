@@ -3,32 +3,32 @@ API views
 """
 
 
-from rest_framework import viewsets
+from rest_framework import generics
 
 from food.models import Food, Category
 from .serializers import FoodSerializer, CategorySerializer
 
 
 
-# class FoodIdViewSet(viewsets.ModelViewSet):
-#     """
-#     API endpoint that allows users to be viewed or edited.
-#     """
-#     queryset = Food.objects.get(id=666)
-#     serializer_class = FoodSerializer
-
-
-class FoodViewSet(viewsets.ModelViewSet):
+class FoodIdViewSet(generics.RetrieveUpdateDestroyAPIView):
     """
-    API endpoint that allows users to be viewed or edited.
+    API endpoint that allows individual product to be viewed or edited.
     """
     queryset = Food.objects.all()
     serializer_class = FoodSerializer
 
 
-class CategoryViewSet(viewsets.ModelViewSet):
+class FoodViewSet(generics.ListCreateAPIView):
     """
-    API endpoint that allows groups to be viewed or edited.
+    API endpoint that allows food products to be viewed or edited.
+    """
+    queryset = Food.objects.all()
+    serializer_class = FoodSerializer
+
+
+class CategoryViewSet(generics.ListCreateAPIView):
+    """
+    API endpoint that allows category to be viewed or edited.
     """
     queryset = Category.objects.all()
     serializer_class = CategorySerializer

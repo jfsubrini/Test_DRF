@@ -11,7 +11,6 @@ import requests, time
 
 # Django imports
 from django.core.management.base import BaseCommand, CommandError
-from django.db import transaction, IntegrityError
 
 # Imports from my app
 from api.constants import DRF_API_URL
@@ -20,7 +19,7 @@ from api.constants import DRF_API_URL
 
 class Command(BaseCommand):
     """
-    Django management class to enable the './manage.py test_perf_drf.py' command.
+    Django management class to enable the './manage.py test_perf_drf' command.
     """
 
     help = "Lance un test pour évaluer la performance de mon API."
@@ -42,14 +41,14 @@ class Command(BaseCommand):
         d = 1000
         t = 10000
         j = 0
-        for product_id in range(d, d+t):
+        for pk in range(d, d+t):
             # If the product item has these data then collects them all.
-            my_api = self.my_api_data(product_id)
+            my_api = self.my_api_data(pk)
             if my_api != []:
                 j += 1
-            else:
-                self.stdout.write(self.style.WARNING(
-                "Il n'y a pas d'aliment avec l'id n° {0} dans la base de données".format(product_id)))
+            # else:
+            #     self.stdout.write(self.style.WARNING(
+            #     "Il n'y a pas d'aliment avec l'id n° {0} dans la base de données".format(pk)))
 
         # Ending time and calculation of duration time for the whole testing process.
         time_after = time.time()
@@ -60,12 +59,11 @@ class Command(BaseCommand):
             "\nLe test est terminé.\nAvec {0} requêtes ayant abouties sur un total de {1}, le test a mis {2} secondes pour s'exécuter.".format(j, t, running_time)))
 
 
-    def my_api_data(self, product_id):
+    def my_api_data(self, pk):
         """Request to the DRF API to collect data for the food products in the pur_beurre database,
         with ids from 1000 to 10999."""
         try:
-            payload = {'id': product_id}
-            response = requests.get(DRF_API_URL, params=payload)
+            response = requests.get(DRF_API_URL + str(pk))
             my_api = response.json()
             print(my_api)
             return my_api
